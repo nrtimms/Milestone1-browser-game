@@ -1,0 +1,20 @@
+.rectangle {
+    height: 50px;
+    width: 400px;
+    background-color: black;
+}
+
+.target {
+    height: 50px;
+    width: 100px;
+    background-color: green;
+    translate: 150px -50px;
+}
+
+.circle {
+    height: 30px;
+    width: 30px;
+    background-color: pink;
+    border-radius: 50%;
+    position: fixed;
+  }
