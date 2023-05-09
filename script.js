@@ -282,6 +282,29 @@ function animate() {
 }
 animate()
 
+//click on bubbles
+function isIntersect(point, circle) {
+    return (
+        point.x >= circle.position.x &&
+        point.x <= circle.position.x + circle.width &&
+        point.y >= circle.position.y &&
+        point.y <= circle.position.y + circle.height
+    )
+  }
+  
+  canvas.addEventListener('click', (e) => {
+    const pos = {
+      x: e.clientX,
+      y: e.clientY
+    };
+    console.log(pos.x)
+    fish.forEach(fish => {
+      if (isIntersect(pos, fish)) {
+        alert('click on circle: ');
+      }
+    });
+  });
+
 window.addEventListener('keydown', (e) => {
     switch(e.key) {
         case 'w':
