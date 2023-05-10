@@ -27,10 +27,10 @@
 // window.setInterval(moveCircle, 10, circleObject)
 
 // function clickclick(circleObject){
-//     if(circleObject.x>150 && circleObject.x<250){
+//     if(circleObject.x>162 && circleObject.x<237){
 //         circleObject.count ++
 //     }
-//     if(circleObject.x<150 || circleObject.x>250){
+//     if(circleObject.x<162 || circleObject.x>237){
 //         circleObject.count --
 //     }
 //     if(circleObject.count == 10){
@@ -39,6 +39,7 @@
 //     if(circleObject.count == 4){
 //         console.log("loss")
 //     }
+//     console.log(circleObject.count)
 // }
 
 // document.getElementById("rect").onclick = function() {clickclick(circleObject)};
@@ -80,13 +81,14 @@ collisionsMap.forEach((row, i) => {
         )
     })
 })
+console.log(boundaries)
 
-const fish = []
+const fishSpots = []
 
 fishiesMap.forEach((row, i) => {
     row.forEach((symbol, j) => {
         if (symbol === 1)
-        fish.push(
+        fishSpots.push(
             new Boundary({
                 position: {
                     x: j * Boundary.width,
@@ -96,12 +98,16 @@ fishiesMap.forEach((row, i) => {
         )
     })
 })
+console.log(fishSpots)
 
 const image = new Image()
 image.src = '/assets/map.png'
 
 const playerImage = new Image()
 playerImage.src = '/assets/boat.png'
+
+const catchFishImage = new Image()
+catchFishImage.src = '/assets/catchFish.png'
 
 class Sprite {
     constructor({position, image}) {
@@ -136,7 +142,15 @@ const background = new Sprite({
         x: 0,
         y: 0
     },
-    image: image,
+    image: image
+})
+
+const catchFish = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    image: catchFishImage
 })
 
 const boat = new Player({
@@ -144,7 +158,7 @@ const boat = new Player({
         x: 400,
         y: 200
     },
-    image: playerImage,
+    image: playerImage
 })
 
 const keys = {
@@ -162,7 +176,7 @@ const keys = {
     }
 }
 
-const movables = [background, ...boundaries, ...fish]
+const movables = [background, ...boundaries, ...fishSpots]
 
 function rectangularCollision({thing1, thing2}) {
     return (
@@ -173,17 +187,49 @@ function rectangularCollision({thing1, thing2}) {
     )
 }
 
+const fishing = {
+    intiated: false
+}
+
 function animate() {
-    window.requestAnimationFrame(animate)
+    const animationId = window.requestAnimationFrame(animate)
+    //console.log(animationId)
     background.draw()
     boat.draw()
     
     boundaries.forEach(boundary => {
         boundary.draw()
     })
-    fish.forEach(fish => {
+    fishSpots.forEach(fish => {
         fish.draw()
     })
+
+    if(fishing.intiated) return
+
+//click on bubbles https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
+  canvas.addEventListener('click', (e) => {
+    const pos = {
+      x: e.clientX,
+      y: e.clientY
+    };
+    //fishSpots.forEach(fish => {
+    for (let i=0; i<fishSpots.length; i++){
+        const fish = fishSpots[i]
+      if (pos.x >= fish.position.x &&
+        pos.x <= fish.position.x + fish.width &&
+        pos.y >= fish.position.y &&
+        pos.y <= fish.position.y + fish.height) {
+        console.log('fishing spot')
+        window.cancelAnimationFrame(animationId)
+        fishing.intiated = true
+        gsap.to('.meter',{
+            opacity: 1
+        })
+        animateFishing()
+        break
+      }
+    };
+  });
 
     let moving = true
     if(keys.w.pressed) {
@@ -282,28 +328,11 @@ function animate() {
 }
 animate()
 
-//click on bubbles
-function isIntersect(point, circle) {
-    return (
-        point.x >= circle.position.x &&
-        point.x <= circle.position.x + circle.width &&
-        point.y >= circle.position.y &&
-        point.y <= circle.position.y + circle.height
-    )
-  }
-  
-  canvas.addEventListener('click', (e) => {
-    const pos = {
-      x: e.clientX,
-      y: e.clientY
-    };
-    console.log(pos.x)
-    fish.forEach(fish => {
-      if (isIntersect(pos, fish)) {
-        alert('click on circle: ');
-      }
-    });
-  });
+function animateFishing(){
+    window.requestAnimationFrame(animateFishing)
+    //console.log('animating fishing')
+}
+//animateFishing()
 
 window.addEventListener('keydown', (e) => {
     switch(e.key) {

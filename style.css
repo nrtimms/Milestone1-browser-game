@@ -6,9 +6,9 @@
 
 .target {
     height: 50px;
-    width: 100px;
+    width: 75px;
     background-color: green;
-    translate: 150px -50px;
+    translate: 162.5px -50px;
 }
 
 .circle {
@@ -18,3 +18,8 @@
     border-radius: 50%;
     position: fixed;
   }
+
+.meter{
+    position: absolute;
+    opacity: 0;
+}
