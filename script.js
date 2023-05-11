@@ -331,7 +331,7 @@ function animate() {
 let animateFishingId
 function animateFishing(){
     animateFishingId = window.requestAnimationFrame(animateFishing)
-    document.getElementById("rect").onclick = function() {clickclick(circleObject)};
+    document.getElementById("button").onclick = function() {clickclick(circleObject)};
     //console.log('animating fishing')
     if(donefishing) {
         fishing.intiated = false
@@ -339,6 +339,7 @@ function animateFishing(){
             opacity: 0
         })
         donefishing = false
+        circleObject.count = 5
      
     }
 }
