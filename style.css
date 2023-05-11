@@ -1,14 +1,19 @@
+* {
+    text-align: center;
+}
+
 .rectangle {
     height: 50px;
     width: 400px;
     background-color: black;
+    translate: 210px 10px;
 }
 
 .target {
     height: 50px;
     width: 75px;
     background-color: green;
-    translate: 162.5px -50px;
+    translate: 372.5px -40px;
 }
 
 .circle {
@@ -19,7 +24,28 @@
     position: fixed;
   }
 
+  #progress {
+    height: 10px;
+    background-color: #ccc;
+    margin-top: 10px;
+    translate: 210px -30px;
+  }
+
+#green-bar {
+    height: 10px;
+    width: 80px;
+    background-color: green;
+    top: 0;
+    left: 0;
+    right: 0;
+    translate: 210px -40px;
+}
+
 .meter{
     position: absolute;
-    opacity: 0;
+    opacity: 1;
+}
+
+button {
+    translate: 50px -30px;
 }

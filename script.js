@@ -1,10 +1,12 @@
 const circleObject = {
     circle: document.getElementById("circle"),
-    x: 9,
-    y: 17,
+    x: 209,
+    y: 100,
     goLeft: false,
     count: 5,
-    first: true
+    first: true,
+    bar: document.getElementById("green-bar"),
+    green: 16.67
 }
 
 function moveCircle(circleObject){
@@ -18,10 +20,10 @@ function moveCircle(circleObject){
             circleObject.circle.style.left = circleObject.x - 3 + "px";
             circleObject.x = circleObject.x - 3;
         }
-        if(circleObject.x>380){
+        if(circleObject.x>590){
             circleObject.goLeft=true;
         }
-        if(circleObject.x<10){
+        if(circleObject.x<220){
             circleObject.goLeft=false;
         }
 }
@@ -29,11 +31,19 @@ window.setInterval(moveCircle, 10, circleObject)
 
 let donefishing = false
 function clickclick(circleObject){
-    if(circleObject.x>162 && circleObject.x<237){
+    if(circleObject.x>370 && circleObject.x<425){
         circleObject.count ++
+        circleObject.green += 16.67
+        gsap.to('#green-bar', {
+            width: circleObject.green+'%'
+        })
     }
     else {
         circleObject.count --
+        circleObject.green -= 16.67
+        gsap.to('#green-bar', {
+            width: circleObject.green+'%'
+        })
     }
     if (circleObject.count == 10){
         console.log("win")
@@ -217,12 +227,12 @@ function animate() {
     //fishSpots.forEach(fish => {
     for (let i=0; i<fishSpots.length; i++){
         const fish = fishSpots[i]
-        console.log(fish)
+        //console.log(fish)
         if (pos.x >= fish.position.x &&
             pos.x <= fish.position.x + fish.width &&
             pos.y >= fish.position.y &&
             pos.y <= fish.position.y + fish.height) {
-            console.log('fishing spot')
+            //console.log('fishing spot')
             fishing.intiated = true
             gsap.to('.meter',{
                 opacity: 1
@@ -243,7 +253,7 @@ function animate() {
                         ...boundary,
                         position: {
                             x: boundary.position.x,
-                            y: boundary.position.y + 3
+                            y: boundary.position.y + 5
                         }
                     }
                 })
@@ -254,7 +264,7 @@ function animate() {
         }
         if (moving)
             movables.forEach((movable) => {
-                movable.position.y += 3
+                movable.position.y += 5
             })
     } else if(keys.a.pressed) {
         for (let i=0; i<boundaries.length; i++) {
@@ -265,7 +275,7 @@ function animate() {
                     thing2: {
                         ...boundary,
                         position: {
-                            x: boundary.position.x + 3,
+                            x: boundary.position.x + 5,
                             y: boundary.position.y
                         }
                     }
@@ -277,7 +287,7 @@ function animate() {
         }
         if (moving)
             movables.forEach((movable) => {
-                movable.position.x += 3
+                movable.position.x += 5
             })
     } else if(keys.s.pressed) {
             for (let i=0; i<boundaries.length; i++) {
@@ -289,7 +299,7 @@ function animate() {
                             ...boundary,
                             position: {
                                 x: boundary.position.x,
-                                y: boundary.position.y - 3
+                                y: boundary.position.y - 5
                             }
                         }
                     })
@@ -300,7 +310,7 @@ function animate() {
             }
             if (moving)
                 movables.forEach((movable) => {
-                    movable.position.y -= 3
+                    movable.position.y -= 5
                 })
         }else if(keys.d.pressed) {
             for (let i=0; i<boundaries.length; i++) {
@@ -311,7 +321,7 @@ function animate() {
                         thing2: {
                             ...boundary,
                             position: {
-                                x: boundary.position.x - 10,
+                                x: boundary.position.x - 5,
                                 y: boundary.position.y
                             }
                         }
@@ -323,7 +333,7 @@ function animate() {
             }
             if (moving)
                 movables.forEach((movable) => {
-                    movable.position.x -= 3
+                    movable.position.x -= 5
                 })
         }
 }
@@ -340,6 +350,7 @@ function animateFishing(){
         })
         donefishing = false
         circleObject.count = 5
+        circleObject.green = 16.67
      
     }
 }
