@@ -1,46 +1,47 @@
-// const circleObject = {
-//     circle: document.getElementById("circle"),
-//     x: 9,
-//     y: 17,
-//     goLeft: false,
-//     count: 5,
-// }
+const circleObject = {
+    circle: document.getElementById("circle"),
+    x: 9,
+    y: 17,
+    goLeft: false,
+    count: 5,
+}
 
-// function moveCircle(circleObject){
-//     circleObject.circle.style.left = circleObject.x + "px";
-//     circleObject.circle.style.top = circleObject.y + "px";
-//         if (circleObject.goLeft == false){
-//             circleObject.circle.style.left = circleObject.x + 3 + "px";
-//             circleObject.x = circleObject.x + 3;
-//         }
-//         if (circleObject.goLeft == true){
-//             circleObject.circle.style.left = circleObject.x - 3 + "px";
-//             circleObject.x = circleObject.x - 3;
-//         }
-//         if(circleObject.x>380){
-//             circleObject.goLeft=true;
-//         }
-//         if(circleObject.x<10){
-//             circleObject.goLeft=false;
-//         }
-// }
-// window.setInterval(moveCircle, 10, circleObject)
+function moveCircle(circleObject){
+    circleObject.circle.style.left = circleObject.x + "px";
+    circleObject.circle.style.top = circleObject.y + "px";
+        if (circleObject.goLeft == false){
+            circleObject.circle.style.left = circleObject.x + 3 + "px";
+            circleObject.x = circleObject.x + 3;
+        }
+        if (circleObject.goLeft == true){
+            circleObject.circle.style.left = circleObject.x - 3 + "px";
+            circleObject.x = circleObject.x - 3;
+        }
+        if(circleObject.x>380){
+            circleObject.goLeft=true;
+        }
+        if(circleObject.x<10){
+            circleObject.goLeft=false;
+        }
+}
+window.setInterval(moveCircle, 10, circleObject)
 
-// function clickclick(circleObject){
-//     if(circleObject.x>162 && circleObject.x<237){
-//         circleObject.count ++
-//     }
-//     if(circleObject.x<162 || circleObject.x>237){
-//         circleObject.count --
-//     }
-//     if(circleObject.count == 10){
-//         console.log("win")
-//     }
-//     if(circleObject.count == 4){
-//         console.log("loss")
-//     }
-//     console.log(circleObject.count)
-// }
+function clickclick(circleObject){
+    if(circleObject.x>162 && circleObject.x<237){
+        circleObject.count ++
+    }
+    if(circleObject.x<162 || circleObject.x>237){
+        circleObject.count --
+    }
+    if(circleObject.count == 10){
+        console.log("win")
+        alert("You caught a fish");
+    }
+    if(circleObject.count == 4){
+        alert("The fish got away");
+    }
+    console.log(circleObject.count)
+}
 
 // document.getElementById("rect").onclick = function() {clickclick(circleObject)};
 
@@ -61,7 +62,7 @@ class Boundary {
         this.height = 128
     }
     draw() {
-        c.fillStyle = 'rgba(255, 0, 0, 0.2)'
+        c.fillStyle = 'rgba(255, 0, 0, 0)'
         c.fillRect(this.position.x, this.position.y, this.width, this.height)
     }
 }
@@ -101,13 +102,13 @@ fishiesMap.forEach((row, i) => {
 console.log(fishSpots)
 
 const image = new Image()
-image.src = '/assets/map.png'
+image.src = './assets/map.png'
 
 const playerImage = new Image()
-playerImage.src = '/assets/boat.png'
+playerImage.src = './assets/boat.png'
 
-const catchFishImage = new Image()
-catchFishImage.src = '/assets/catchFish.png'
+// const catchFishImage = new Image()
+// catchFishImage.src = '/assets/catchFish.png'
 
 class Sprite {
     constructor({position, image}) {
@@ -145,13 +146,13 @@ const background = new Sprite({
     image: image
 })
 
-const catchFish = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    image: catchFishImage
-})
+// const catchFish = new Sprite({
+//     position: {
+//         x: 0,
+//         y: 0
+//     },
+//     image: catchFishImage
+// })
 
 const boat = new Player({
     position: {
@@ -330,6 +331,7 @@ animate()
 
 function animateFishing(){
     window.requestAnimationFrame(animateFishing)
+    document.getElementById("rect").onclick = function() {clickclick(circleObject)};
     //console.log('animating fishing')
 }
 //animateFishing()
