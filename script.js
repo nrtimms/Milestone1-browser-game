@@ -102,10 +102,10 @@ fishiesMap.forEach((row, i) => {
 console.log(fishSpots)
 
 const image = new Image()
-image.src = 'Milestone1-browser-game/assets/map.png'
+image.src = '/Milestone1-browser-game/assets/map.png'
 
 const playerImage = new Image()
-playerImage.src = 'Milestone1-browser-game/assets/boat.png'
+playerImage.src = '/Milestone1-browser-game/assets/boat.png'
 
 // const catchFishImage = new Image()
 // catchFishImage.src = '/assets/catchFish.png'
