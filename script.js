@@ -26,19 +26,22 @@ function moveCircle(circleObject){
 }
 window.setInterval(moveCircle, 10, circleObject)
 
+let donefishing = false
 function clickclick(circleObject){
     if(circleObject.x>162 && circleObject.x<237){
         circleObject.count ++
     }
-    if(circleObject.x<162 || circleObject.x>237){
+    else {
         circleObject.count --
     }
-    if(circleObject.count == 10){
+    if (circleObject.count == 10){
         console.log("win")
         alert("You caught a fish");
+        donefishing = true;
     }
     if(circleObject.count == 4){
         alert("The fish got away");
+        donefishing = true;
     }
     console.log(circleObject.count)
 }
@@ -201,7 +204,7 @@ function animate() {
     fishSpots.forEach(fish => {
         fish.draw()
     })
-
+    
     if(fishing.intiated) return
 
 //click on bubbles https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
@@ -213,19 +216,20 @@ function animate() {
     //fishSpots.forEach(fish => {
     for (let i=0; i<fishSpots.length; i++){
         const fish = fishSpots[i]
-      if (pos.x >= fish.position.x &&
-        pos.x <= fish.position.x + fish.width &&
-        pos.y >= fish.position.y &&
-        pos.y <= fish.position.y + fish.height) {
-        console.log('fishing spot')
-        window.cancelAnimationFrame(animationId)
-        fishing.intiated = true
-        gsap.to('.meter',{
-            opacity: 1
-        })
-        animateFishing()
-        break
-      }
+        console.log(fish)
+        if (pos.x >= fish.position.x &&
+            pos.x <= fish.position.x + fish.width &&
+            pos.y >= fish.position.y &&
+            pos.y <= fish.position.y + fish.height) {
+            console.log('fishing spot')
+            window.cancelAnimationFrame(animationId)
+            fishing.intiated = true
+            gsap.to('.meter',{
+                opacity: 1
+            })
+            animateFishing()
+            break
+        }
     };
   });
 
@@ -327,9 +331,17 @@ function animate() {
 animate()
 
 function animateFishing(){
-    window.requestAnimationFrame(animateFishing)
+    let animateId2 =window.requestAnimationFrame(animateFishing)
     document.getElementById("rect").onclick = function() {clickclick(circleObject)};
     //console.log('animating fishing')
+    if(donefishing) {
+        fishing.intiated = false
+        gsap.to('.meter',{
+            opacity: 0
+        })
+        window.cancelAnimationFrame(animateId2)
+        animate()
+    }
 }
 //animateFishing()
 
