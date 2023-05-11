@@ -9,6 +9,9 @@ const circleObject = {
     green: 16.67
 }
 
+let score = 0;
+let highScore = localStorage.getItem('highScore') || 0;
+
 function moveCircle(circleObject){
     circleObject.circle.style.left = circleObject.x + "px";
     circleObject.circle.style.top = circleObject.y + "px";
@@ -46,11 +49,13 @@ function clickclick(circleObject){
         })
     }
     if (circleObject.count == 10){
+        score++
         console.log("win")
         alert("You caught a fish");
         donefishing = true;
     }
     if(circleObject.count == 4){
+        score = 0
         alert("The fish got away");
         donefishing = true;
     }
@@ -221,9 +226,10 @@ function animate() {
 //click on bubbles https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
   canvas.addEventListener('click', (e) => {
     const pos = {
-      x: e.clientX,
-      y: e.clientY
+      x: e.clientX -200,
+      y: e.clientY -60
     };
+    console.log(pos)
     //fishSpots.forEach(fish => {
     for (let i=0; i<fishSpots.length; i++){
         const fish = fishSpots[i]
@@ -343,6 +349,10 @@ function animateFishing(){
     animateFishingId = window.requestAnimationFrame(animateFishing)
     document.getElementById("button").onclick = function() {clickclick(circleObject)};
     //console.log('animating fishing')
+    if (score > highScore) highScore = score;
+    c.font = "15px Verdana";
+    c.fillStyle = '#eee';
+    c.fillText(`Fish caught in a row: ${score}    High Score: ${highScore}`, 700, 40);
     if(donefishing) {
         fishing.intiated = false
         gsap.to('.meter',{
