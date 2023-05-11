@@ -4,6 +4,7 @@ const circleObject = {
     y: 17,
     goLeft: false,
     count: 5,
+    first: true
 }
 
 function moveCircle(circleObject){
@@ -222,12 +223,10 @@ function animate() {
             pos.y >= fish.position.y &&
             pos.y <= fish.position.y + fish.height) {
             console.log('fishing spot')
-            window.cancelAnimationFrame(animationId)
             fishing.intiated = true
             gsap.to('.meter',{
                 opacity: 1
             })
-            animateFishing()
             break
         }
     };
@@ -328,10 +327,10 @@ function animate() {
                 })
         }
 }
-animate()
 
+let animateFishingId
 function animateFishing(){
-    let animateId2 =window.requestAnimationFrame(animateFishing)
+    animateFishingId = window.requestAnimationFrame(animateFishing)
     document.getElementById("rect").onclick = function() {clickclick(circleObject)};
     //console.log('animating fishing')
     if(donefishing) {
@@ -339,10 +338,15 @@ function animateFishing(){
         gsap.to('.meter',{
             opacity: 0
         })
-        window.cancelAnimationFrame(animateId2)
-        animate()
+        donefishing = false
+     
     }
 }
+
+animate()
+animateFishing()
+
+
 //animateFishing()
 
 window.addEventListener('keydown', (e) => {
