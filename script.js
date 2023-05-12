@@ -294,7 +294,7 @@ function animate() {
             movables.forEach((movable) => {
                 movable.position.y += 5
             })
-    } else if(keys.a.pressed) {
+    } if(keys.a.pressed) {
         for (let i=0; i<boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -317,7 +317,7 @@ function animate() {
             movables.forEach((movable) => {
                 movable.position.x += 5
             })
-    } else if(keys.s.pressed) {
+    } if(keys.s.pressed) {
             for (let i=0; i<boundaries.length; i++) {
                 const boundary = boundaries[i]
                 if (
@@ -340,7 +340,7 @@ function animate() {
                 movables.forEach((movable) => {
                     movable.position.y -= 5
                 })
-        }else if(keys.d.pressed) {
+        }if(keys.d.pressed) {
             for (let i=0; i<boundaries.length; i++) {
                 const boundary = boundaries[i]
                 if (
