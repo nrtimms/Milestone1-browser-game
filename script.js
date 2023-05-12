@@ -8,6 +8,15 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 const rect = canvas.getBoundingClientRect()
 console.log(rect.top)
 
+const audio = {
+    Map: new Howl({
+      src: 'audio/sailing_away.wav',
+      html5: true,
+      loop: true,
+      volume: 0.3
+    })
+}
+
 const circleObject = {
     circle: document.getElementById("circle"),
     x: rect.left + 9,
@@ -60,6 +69,8 @@ function moveCircle(circleObject){
 window.setInterval(moveCircle, 10, circleObject)
 const ran = Math.floor(Math.random() * 5); 
 console.log(ran)
+
+let fishCaught = false
 let donefishing = false
 function clickclick(circleObject){
     if(circleObject.x>rect.left+160 && circleObject.x<rect.left+235){
@@ -79,7 +90,8 @@ function clickclick(circleObject){
     if (circleObject.count == 9){
         score++
         console.log("win")
-        donefishing = true;
+        fishCaught = true
+        //donefishing = true;
     }
     if(circleObject.count == 4){
         score = 0
@@ -251,14 +263,6 @@ const strangeFish = new Sprite({
 
 const catchables = [bootFish, lanceFish, milesFish, squadFish, strangeFish]
 
-// const catchFish = new Sprite({
-//     position: {
-//         x: 0,
-//         y: 0
-//     },
-//     image: catchFishImage
-// })
-
 const boat = new Player({
     position: {
         x: 400,
@@ -337,6 +341,8 @@ function animate() {
             gsap.to('.meter',{
                 opacity: 1
             })
+            console.log(fishCaught)
+            console.log(donefishing)
             break
         }
     };
@@ -442,12 +448,26 @@ let animateFishingId
 function animateFishing(){
     animateFishingId = window.requestAnimationFrame(animateFishing)
     document.getElementById("button").onclick = function() {clickclick(circleObject)};
-    //console.log('animating fishing')
     if (score > highScore) highScore = score;
     localStorage.setItem('highScore', highScore);
     c.font = "15px Verdana";
     c.fillStyle = '#eee';
     c.fillText(`Fish caught in a row: ${score}    High Score: ${highScore}`, 700, 40);
+    if (fishCaught) {
+        catchables[ran].draw()
+    
+        canvas.addEventListener('click', (e) => {
+            fishing.intiated = false
+            gsap.to('.meter',{
+                opacity: 0
+            })
+            fishCaught = false
+            circleObject.count = 5 
+            circleObject.green = 80
+            document.querySelector('#button').disabled = true;
+        });
+    }
+
     if(donefishing) {
         fishing.intiated = false
         gsap.to('.meter',{
@@ -457,6 +477,8 @@ function animateFishing(){
         circleObject.count = 5 
         circleObject.green = 80
         document.querySelector('#button').disabled = true;
+        console.log(fishCaught)
+        console.log(donefishing)
     }
 }
 
@@ -498,4 +520,12 @@ window.addEventListener('keyup', (e) => {
             keys.d.pressed = false
             break
     }
+})
+
+let clicked = false
+addEventListener('keydown', () => {
+  if (!clicked) {
+    audio.Map.play()
+    clicked = true
+  }
 })
