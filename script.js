@@ -60,7 +60,7 @@ window.setInterval(moveCircle, 10, circleObject)
 
 let donefishing = false
 function clickclick(circleObject){
-    if(circleObject.x>rect.left+165 && circleObject.x<rect.left+230){
+    if(circleObject.x>rect.left+160 && circleObject.x<rect.left+235){
         circleObject.green += 80
         gsap.to('#green-bar', {
             width: circleObject.green+'px'
@@ -215,10 +215,10 @@ const movables = [background, ...boundaries, ...fishSpots]
 
 function rectangularCollision({thing1, thing2}) {
     return (
-        thing1.position.x + thing1.width -20 >= thing2.position.x &&
-        thing1.position.x <= thing2.position.x + thing2.width - 20 &&
+        thing1.position.x + thing1.width -50 >= thing2.position.x &&
+        thing1.position.x <= thing2.position.x + thing2.width - 50 &&
         thing1.position.y + thing1.height - 50 >= thing2.position.y &&
-        thing1.position.y <= thing2.position.y + thing2.height -20
+        thing1.position.y <= thing2.position.y + thing2.height -50
     )
 }
 
@@ -259,6 +259,7 @@ function animate() {
             pos.y <= fish.position.y + fish.height) {
             //console.log('fishing spot')
             fishing.intiated = true
+            document.querySelector('#button').disabled = false;
             gsap.to('#green-bar', {
                 width: '80px'
             })
@@ -383,6 +384,7 @@ function animateFishing(){
         donefishing = false
         circleObject.count = 5 
         circleObject.green = 80
+        document.querySelector('#button').disabled = true;
     }
 }
 
