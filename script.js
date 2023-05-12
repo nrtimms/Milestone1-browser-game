@@ -37,6 +37,7 @@ button.style.top = rect.top + 90 + "px";
 
 let score = 0;
 let highScore = localStorage.getItem('highScore') || 0;
+localStorage.setItem('highScore', highScore);
 
 function moveCircle(circleObject){
     circleObject.circle.style.left = circleObject.x + "px";
@@ -57,7 +58,8 @@ function moveCircle(circleObject){
         }
 }
 window.setInterval(moveCircle, 10, circleObject)
-
+const ran = Math.floor(Math.random() * 5); 
+console.log(ran)
 let donefishing = false
 function clickclick(circleObject){
     if(circleObject.x>rect.left+160 && circleObject.x<rect.left+235){
@@ -77,7 +79,6 @@ function clickclick(circleObject){
     if (circleObject.count == 9){
         score++
         console.log("win")
-        alert("You caught a fish");
         donefishing = true;
     }
     if(circleObject.count == 4){
@@ -138,11 +139,39 @@ fishiesMap.forEach((row, i) => {
 })
 console.log(fishSpots)
 
+//const boatIm = 'assets/boat.png'
+window.addEventListener('keydown', (e) => {
+    switch(e.key) {
+        case 'a':
+            playerImage.src = 'assets/boat.png'
+            break
+        case 'd':
+            playerImage.src = 'assets/boatEast.png'
+            break
+    }
+})
+
 const image = new Image()
 image.src = 'assets/map.png'
 
 const playerImage = new Image()
 playerImage.src = 'assets/boat.png'
+
+//fish pictures
+const bootImage = new Image()
+bootImage.src = 'assets/boot.png'
+
+const lanceImage = new Image ()
+lanceImage.src = 'assets/lance.png'
+
+const milesImage = new Image ()
+milesImage.src = 'assets/miles.png'
+
+const squadImage = new Image ()
+squadImage.src = 'assets/squad.png'
+
+const strangeImage = new Image()
+strangeImage.src = 'assets/strange.png'
 
 class Sprite {
     constructor({position, image}) {
@@ -179,6 +208,48 @@ const background = new Sprite({
     },
     image: image
 })
+
+const bootFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: bootImage
+})
+
+const lanceFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: lanceImage
+})
+
+const milesFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: milesImage
+})
+
+const squadFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: squadImage
+})
+
+const strangeFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: strangeImage
+})
+
+const catchables = [bootFish, lanceFish, milesFish, squadFish, strangeFish]
 
 // const catchFish = new Sprite({
 //     position: {
