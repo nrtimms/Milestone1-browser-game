@@ -6,14 +6,14 @@
     height: 50px;
     width: 400px;
     background-color: black;
-    translate: 210px 10px;
+    position: fixed;
 }
 
 .target {
     height: 50px;
     width: 75px;
     background-color: green;
-    translate: 372.5px -40px;
+    position: fixed;
 }
 
 .circle {
@@ -26,19 +26,19 @@
 
   #progress {
     height: 10px;
+    width: 400px;
     background-color: #ccc;
-    margin-top: 10px;
-    translate: 210px -30px;
+    position: fixed;
   }
 
 #green-bar {
     height: 10px;
-    width: 80px;
+    width: 400px;
     background-color: green;
     top: 0;
     left: 0;
     right: 0;
-    translate: 210px -40px;
+    position: fixed;
 }
 
 .meter{
@@ -47,5 +47,5 @@
 }
 
 button {
-    translate: 50px -30px;
+    position: fixed;
 }

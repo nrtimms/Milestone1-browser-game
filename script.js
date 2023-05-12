@@ -1,3 +1,13 @@
+const canvas = document.querySelector('canvas')
+const c = canvas.getContext('2d')
+
+canvas.width = 1024
+canvas.height = 576
+
+c.fillRect(0, 0, canvas.width, canvas.height)
+const rect = canvas.getBoundingClientRect()
+console.log(rect.top)
+
 const circleObject = {
     circle: document.getElementById("circle"),
     x: 209,
@@ -6,8 +16,24 @@ const circleObject = {
     count: 5,
     first: true,
     bar: document.getElementById("green-bar"),
-    green: 16.67
+    green: 80
 }
+
+const rectangle = document.getElementById('rect')
+const target = document.getElementById('target')
+const progressBar = document.getElementById('progress')
+const greenBar = document.getElementById('green-bar')
+const button = document.getElementById('button')
+rectangle.style.left = rect.left + 10 + "px";
+rectangle.style.top = rect.top + 10 + "px";
+target.style.left = rect.left + 172.5 + "px";
+target.style.top = rect.top + 10 + "px";
+progressBar.style.left = rect.left + 10 + "px";
+progressBar.style.top = rect.top + 70 + "px";
+greenBar.style.left = rect.left + 10 + "px";
+greenBar.style.top = rect.top + 70 + "px";
+button.style.left = rect.left + 10 + "px";
+button.style.top = rect.top + 90 + "px";
 
 let score = 0;
 let highScore = localStorage.getItem('highScore') || 0;
@@ -34,21 +60,21 @@ window.setInterval(moveCircle, 10, circleObject)
 
 let donefishing = false
 function clickclick(circleObject){
-    if(circleObject.x>370 && circleObject.x<425){
-        circleObject.count ++
-        circleObject.green += 16.67
+    if(circleObject.x>360 && circleObject.x<435){
+        circleObject.green += 80
         gsap.to('#green-bar', {
-            width: circleObject.green+'%'
+            width: circleObject.green+'px'
         })
+        circleObject.count ++
     }
     else {
-        circleObject.count --
-        circleObject.green -= 16.67
+        circleObject.green -= 80
         gsap.to('#green-bar', {
-            width: circleObject.green+'%'
+            width: circleObject.green+'px'
         })
+        circleObject.count --
     }
-    if (circleObject.count == 10){
+    if (circleObject.count == 9){
         score++
         console.log("win")
         alert("You caught a fish");
@@ -63,14 +89,6 @@ function clickclick(circleObject){
 }
 
 // document.getElementById("rect").onclick = function() {clickclick(circleObject)};
-
-const canvas = document.querySelector('canvas')
-const c = canvas.getContext('2d')
-
-canvas.width = 1024
-canvas.height = 576
-
-c.fillRect(0, 0, canvas.width, canvas.height)
 
 class Boundary {
     static width = 128
@@ -225,9 +243,10 @@ function animate() {
 
 //click on bubbles https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
   canvas.addEventListener('click', (e) => {
+    //const rect = canvas.getBoundingClientRect()
     const pos = {
-      x: e.clientX -200,
-      y: e.clientY -60
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
     };
     console.log(pos)
     //fishSpots.forEach(fish => {
@@ -240,6 +259,9 @@ function animate() {
             pos.y <= fish.position.y + fish.height) {
             //console.log('fishing spot')
             fishing.intiated = true
+            gsap.to('#green-bar', {
+                width: '80px'
+            })
             gsap.to('.meter',{
                 opacity: 1
             })
