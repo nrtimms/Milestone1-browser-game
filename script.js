@@ -37,7 +37,7 @@ button.style.top = rect.top + 90 + "px";
 
 let score = 0;
 let highScore = localStorage.getItem('highScore') || 0;
-localStorage.setItem('highScore', highScore);
+
 
 function moveCircle(circleObject){
     circleObject.circle.style.left = circleObject.x + "px";
@@ -444,6 +444,7 @@ function animateFishing(){
     document.getElementById("button").onclick = function() {clickclick(circleObject)};
     //console.log('animating fishing')
     if (score > highScore) highScore = score;
+    localStorage.setItem('highScore', highScore);
     c.font = "15px Verdana";
     c.fillStyle = '#eee';
     c.fillText(`Fish caught in a row: ${score}    High Score: ${highScore}`, 700, 40);
