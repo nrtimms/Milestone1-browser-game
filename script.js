@@ -25,7 +25,8 @@ const circleObject = {
     count: 5,
     first: true,
     bar: document.getElementById("green-bar"),
-    green: 80
+    green: 80,
+    ran: 0
 }
 
 const rectangle = document.getElementById('rect')
@@ -67,8 +68,9 @@ function moveCircle(circleObject){
         }
 }
 window.setInterval(moveCircle, 10, circleObject)
-const ran = Math.floor(Math.random() * 5); 
-console.log(ran)
+
+// const ran = Math.floor(Math.random() * 5); 
+// console.log(ran)
 
 let fishCaught = false
 let donefishing = false
@@ -88,6 +90,7 @@ function clickclick(circleObject){
         circleObject.count --
     }
     if (circleObject.count == 9){
+        circleObject.ran = Math.floor(Math.random() * 5)
         score++
         console.log("win")
         fishCaught = true
@@ -454,7 +457,7 @@ function animateFishing(){
     c.fillStyle = '#eee';
     c.fillText(`Fish caught in a row: ${score}    High Score: ${highScore}`, 700, 40);
     if (fishCaught) {
-        catchables[ran].draw()
+        catchables[circleObject.ran].draw()
     
         canvas.addEventListener('click', (e) => {
             fishing.intiated = false
