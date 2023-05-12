@@ -10,8 +10,8 @@ console.log(rect.top)
 
 const circleObject = {
     circle: document.getElementById("circle"),
-    x: 209,
-    y: 100,
+    x: rect.left + 9,
+    y: rect.top + 18,
     goLeft: false,
     count: 5,
     first: true,
@@ -49,10 +49,10 @@ function moveCircle(circleObject){
             circleObject.circle.style.left = circleObject.x - 3 + "px";
             circleObject.x = circleObject.x - 3;
         }
-        if(circleObject.x>590){
+        if(circleObject.x> rect.left + 380){
             circleObject.goLeft=true;
         }
-        if(circleObject.x<220){
+        if(circleObject.x< rect.left + 10){
             circleObject.goLeft=false;
         }
 }
@@ -60,7 +60,7 @@ window.setInterval(moveCircle, 10, circleObject)
 
 let donefishing = false
 function clickclick(circleObject){
-    if(circleObject.x>360 && circleObject.x<435){
+    if(circleObject.x>rect.left+165 && circleObject.x<rect.left+230){
         circleObject.green += 80
         gsap.to('#green-bar', {
             width: circleObject.green+'px'
@@ -381,9 +381,8 @@ function animateFishing(){
             opacity: 0
         })
         donefishing = false
-        circleObject.count = 5
-        circleObject.green = 16.67
-     
+        circleObject.count = 5 
+        circleObject.green = 80
     }
 }
 
