@@ -10,6 +10,15 @@ h1, p {
     font-family: "Monaco";
 }
 
+p{
+    padding: 0px;
+    margin: 5px;
+}
+
+#note {
+    font-size: 15px;
+}
+
 .rectangle {
     height: 50px;
     width: 400px;

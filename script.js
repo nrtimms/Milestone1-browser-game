@@ -146,6 +146,9 @@ squadImage.src = 'assets/squad.png'
 const strangeImage = new Image()
 strangeImage.src = 'assets/strange.png'
 
+const lostImage = new Image()
+lostImage.src = 'assets/lostFish.png'
+
 const background = new Sprite({
     position: {
         x: 0,
@@ -192,6 +195,14 @@ const strangeFish = new Sprite({
         y: 88
     },
     image: strangeImage
+})
+
+const lost = new Sprite({
+    position:{
+        x: 262,
+        y: 138
+    },
+    image: lostImage
 })
 
 const boat = new Player({
@@ -273,7 +284,6 @@ function clickBall(ref){
     }
     if(ref.count == 4){
         score = 0
-        alert("The fish got away");
         donefishing = true;
     }
 }
@@ -332,14 +342,17 @@ function animate() {
 
     //catching fish unsuccessful
     if(donefishing) {
-        fishing.intiated = false
         gsap.to('.meter',{
             opacity: 0
         })
-        donefishing = false
-        ref.count = 5 
-        ref.green = 80
-        document.querySelector('#button').disabled = true;
+        lost.draw()
+        canvas.addEventListener('click', (e) => {
+            fishing.intiated = false
+            donefishing = false
+            ref.count = 5 
+            ref.green = 80
+            document.querySelector('#button').disabled = true;
+        })
     }
 
     if(fishing.intiated) return
@@ -474,18 +487,6 @@ function animate() {
 //run game loop
 animate()
 
-//change direction of boat
-window.addEventListener('keydown', (e) => {
-    switch(e.key) {
-        case 'a':
-            playerImage.src = 'assets/boat.png'
-            break
-        case 'd':
-            playerImage.src = 'assets/boatEast.png'
-            break
-    }
-})
-
 window.addEventListener('keydown', (e) => {
     switch(e.key) {
         case 'w':
@@ -516,6 +517,18 @@ window.addEventListener('keyup', (e) => {
             break
         case 'd':
             keys.d.pressed = false
+            break
+    }
+})
+
+//change direction of boat
+window.addEventListener('keydown', (e) => {
+    switch(e.key) {
+        case 'a':
+            playerImage.src = 'assets/boat.png'
+            break
+        case 'd':
+            playerImage.src = 'assets/boatEast.png'
             break
     }
 })
