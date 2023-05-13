@@ -1,3 +1,4 @@
+//define and draw canvas
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
@@ -5,8 +6,8 @@ canvas.width = 1024
 canvas.height = 576
 
 c.fillRect(0, 0, canvas.width, canvas.height)
+//get coordinations of canvas
 const rect = canvas.getBoundingClientRect()
-console.log(rect.top)
 
 const audio = {
     Map: new Howl({
@@ -17,6 +18,7 @@ const audio = {
     })
 }
 
+//important variables
 const circleObject = {
     circle: document.getElementById("circle"),
     x: rect.left + 9,
@@ -29,6 +31,7 @@ const circleObject = {
     ran: 0
 }
 
+//position fishing meter
 const rectangle = document.getElementById('rect')
 const target = document.getElementById('target')
 const progressBar = document.getElementById('progress')
@@ -45,10 +48,11 @@ greenBar.style.top = rect.top + 70 + "px";
 button.style.left = rect.left + 10 + "px";
 button.style.top = rect.top + 90 + "px";
 
+//set initial score values
 let score = 0;
 let highScore = localStorage.getItem('highScore') || 0;
 
-
+//move ball on fishing meter
 function moveCircle(circleObject){
     circleObject.circle.style.left = circleObject.x + "px";
     circleObject.circle.style.top = circleObject.y + "px";
@@ -69,11 +73,9 @@ function moveCircle(circleObject){
 }
 window.setInterval(moveCircle, 10, circleObject)
 
-// const ran = Math.floor(Math.random() * 5); 
-// console.log(ran)
-
 let fishCaught = false
 let donefishing = false
+//determine if the ball in clicked in or out of bounds
 function clickclick(circleObject){
     if(circleObject.x>rect.left+160 && circleObject.x<rect.left+235){
         circleObject.green += 80
@@ -92,19 +94,14 @@ function clickclick(circleObject){
     if (circleObject.count == 9){
         circleObject.ran = Math.floor(Math.random() * 5)
         score++
-        console.log("win")
         fishCaught = true
-        //donefishing = true;
     }
     if(circleObject.count == 4){
         score = 0
         alert("The fish got away");
         donefishing = true;
     }
-    console.log(circleObject.count)
 }
-
-// document.getElementById("rect").onclick = function() {clickclick(circleObject)};
 
 class Boundary {
     static width = 128
@@ -135,7 +132,6 @@ collisionsMap.forEach((row, i) => {
         )
     })
 })
-console.log(boundaries)
 
 const fishSpots = []
 
@@ -152,9 +148,8 @@ fishiesMap.forEach((row, i) => {
         )
     })
 })
-console.log(fishSpots)
 
-//const boatIm = 'assets/boat.png'
+//change direction of boar
 window.addEventListener('keydown', (e) => {
     switch(e.key) {
         case 'a':
@@ -166,6 +161,7 @@ window.addEventListener('keydown', (e) => {
     }
 })
 
+//background and player image
 const image = new Image()
 image.src = 'assets/map.png'
 
@@ -291,6 +287,7 @@ const keys = {
 
 const movables = [background, ...boundaries, ...fishSpots]
 
+//detecting collisions
 function rectangularCollision({thing1, thing2}) {
     return (
         thing1.position.x + thing1.width -50 >= thing2.position.x &&
@@ -304,9 +301,10 @@ const fishing = {
     intiated: false
 }
 
+//main game loop
 function animate() {
-    const animationId = window.requestAnimationFrame(animate)
-    //console.log(animationId)
+    window.requestAnimationFrame(animate)
+
     background.draw()
     boat.draw()
     
@@ -321,21 +319,17 @@ function animate() {
 
 //click on bubbles https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
   canvas.addEventListener('click', (e) => {
-    //const rect = canvas.getBoundingClientRect()
     const pos = {
       x: e.clientX - rect.left,
       y: e.clientY - rect.top
     };
     console.log(pos)
-    //fishSpots.forEach(fish => {
     for (let i=0; i<fishSpots.length; i++){
         const fish = fishSpots[i]
-        //console.log(fish)
         if (pos.x >= fish.position.x &&
             pos.x <= fish.position.x + fish.width &&
             pos.y >= fish.position.y &&
             pos.y <= fish.position.y + fish.height) {
-            //console.log('fishing spot')
             fishing.intiated = true
             document.querySelector('#button').disabled = false;
             gsap.to('#green-bar', {
@@ -344,8 +338,6 @@ function animate() {
             gsap.to('.meter',{
                 opacity: 1
             })
-            console.log(fishCaught)
-            console.log(donefishing)
             break
         }
     };
@@ -447,9 +439,9 @@ function animate() {
         }
 }
 
-let animateFishingId
+
 function animateFishing(){
-    animateFishingId = window.requestAnimationFrame(animateFishing)
+    window.requestAnimationFrame(animateFishing)
     document.getElementById("button").onclick = function() {clickclick(circleObject)};
     if (score > highScore) highScore = score;
     localStorage.setItem('highScore', highScore);
@@ -457,13 +449,13 @@ function animateFishing(){
     c.fillStyle = '#eee';
     c.fillText(`Fish caught in a row: ${score}    High Score: ${highScore}`, 700, 40);
     if (fishCaught) {
+        gsap.to('.meter',{
+            opacity: 0
+        })
         catchables[circleObject.ran].draw()
     
         canvas.addEventListener('click', (e) => {
             fishing.intiated = false
-            gsap.to('.meter',{
-                opacity: 0
-            })
             fishCaught = false
             circleObject.count = 5 
             circleObject.green = 80
@@ -487,9 +479,6 @@ function animateFishing(){
 
 animate()
 animateFishing()
-
-
-//animateFishing()
 
 window.addEventListener('keydown', (e) => {
     switch(e.key) {
