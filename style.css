@@ -2,6 +2,14 @@
     text-align: center;
 }
 
+body {
+    background-color: rgb(250, 216, 221)
+}
+
+h1, p {
+    font-family: "Monaco";
+}
+
 .rectangle {
     height: 50px;
     width: 400px;
@@ -24,12 +32,12 @@
     position: fixed;
   }
 
-  #progress {
+#progress {
     height: 10px;
     width: 400px;
     background-color: #ccc;
     position: fixed;
-  }
+}
 
 #green-bar {
     height: 10px;
