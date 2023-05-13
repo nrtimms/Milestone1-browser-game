@@ -9,6 +9,7 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 //get coordinations of canvas
 const rect = canvas.getBoundingClientRect()
 
+//Howler library
 const audio = {
     Map: new Howl({
       src: 'audio/sailing_away.wav',
@@ -18,7 +19,7 @@ const audio = {
     })
 }
 
-//important variables
+//game variables
 const ref = {
     circle: document.getElementById("circle"),
     x: rect.left + 9,
@@ -47,6 +48,180 @@ greenBar.style.left = rect.left + 10 + "px";
 greenBar.style.top = rect.top + 70 + "px";
 button.style.left = rect.left + 10 + "px";
 button.style.top = rect.top + 90 + "px";
+
+class Boundary {
+    static width = 128
+    static height = 128
+    constructor({position}) {
+        this.position = position
+        this.width = 128
+        this.height = 128
+    }
+    draw() {
+        c.fillStyle = 'rgba(255, 0, 0, 0)'
+        c.fillRect(this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+const boundaries = []
+
+collisionsMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if (symbol === 3)
+        boundaries.push(
+            new Boundary({
+                position: {
+                    x: j * Boundary.width,
+                    y: i * Boundary.height
+                }
+            })
+        )
+    })
+})
+
+const fishSpots = []
+
+fishiesMap.forEach((row, i) => {
+    row.forEach((symbol, j) => {
+        if (symbol === 1)
+        fishSpots.push(
+            new Boundary({
+                position: {
+                    x: j * Boundary.width,
+                    y: i * Boundary.height
+                }
+            })
+        )
+    })
+})
+
+class Sprite {
+    constructor({position, image}) {
+        this.position = position
+        this.image = image
+    }
+    draw() {
+        c.drawImage(
+            this.image, 
+            this.position.x, 
+            this.position.y,
+        )
+    }
+}
+
+class Player {
+    static width = 192
+    static height = 192
+    constructor({position, image}) {
+        this.position = position
+        this.image = image
+        this.width = 192
+        this.height = 192
+    }
+    draw() {
+        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+    }
+}
+
+//background and player image
+const image = new Image()
+image.src = 'assets/map.png'
+
+const playerImage = new Image()
+playerImage.src = 'assets/boat.png'
+
+//fish pictures
+const bootImage = new Image()
+bootImage.src = 'assets/boot.png'
+
+const lanceImage = new Image ()
+lanceImage.src = 'assets/lance.png'
+
+const milesImage = new Image ()
+milesImage.src = 'assets/miles.png'
+
+const squadImage = new Image ()
+squadImage.src = 'assets/squad.png'
+
+const strangeImage = new Image()
+strangeImage.src = 'assets/strange.png'
+
+const background = new Sprite({
+    position: {
+        x: 0,
+        y: 0
+    },
+    image: image
+})
+
+const bootFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: bootImage
+})
+
+const lanceFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: lanceImage
+})
+
+const milesFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: milesImage
+})
+
+const squadFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: squadImage
+})
+
+const strangeFish = new Sprite({
+    position: {
+        x: 162,
+        y: 88
+    },
+    image: strangeImage
+})
+
+const boat = new Player({
+    position: {
+        x: 400,
+        y: 200
+    },
+    image: playerImage
+})
+
+const keys = {
+    w:{
+        pressed: false
+    },
+    a:{
+        pressed: false
+    },
+    s:{
+        pressed: false
+    },
+    d:{
+        pressed: false
+    }
+}
+
+//fish that can be caught
+const catchables = [bootFish, lanceFish, milesFish, squadFish, strangeFish]
+
+//objects that move
+const movables = [background, ...boundaries, ...fishSpots]
 
 //set initial score values
 let score = 0;
@@ -102,178 +277,6 @@ function clickBall(ref){
         donefishing = true;
     }
 }
-
-class Boundary {
-    static width = 128
-    static height = 128
-    constructor({position}) {
-        this.position = position
-        this.width = 128
-        this.height = 128
-    }
-    draw() {
-        c.fillStyle = 'rgba(255, 0, 0, 0)'
-        c.fillRect(this.position.x, this.position.y, this.width, this.height)
-    }
-}
-
-const boundaries = []
-
-collisionsMap.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-        if (symbol === 3)
-        boundaries.push(
-            new Boundary({
-                position: {
-                    x: j * Boundary.width,
-                    y: i * Boundary.height
-                }
-            })
-        )
-    })
-})
-
-const fishSpots = []
-
-fishiesMap.forEach((row, i) => {
-    row.forEach((symbol, j) => {
-        if (symbol === 1)
-        fishSpots.push(
-            new Boundary({
-                position: {
-                    x: j * Boundary.width,
-                    y: i * Boundary.height
-                }
-            })
-        )
-    })
-})
-
-//background and player image
-const image = new Image()
-image.src = 'assets/map.png'
-
-const playerImage = new Image()
-playerImage.src = 'assets/boat.png'
-
-//fish pictures
-const bootImage = new Image()
-bootImage.src = 'assets/boot.png'
-
-const lanceImage = new Image ()
-lanceImage.src = 'assets/lance.png'
-
-const milesImage = new Image ()
-milesImage.src = 'assets/miles.png'
-
-const squadImage = new Image ()
-squadImage.src = 'assets/squad.png'
-
-const strangeImage = new Image()
-strangeImage.src = 'assets/strange.png'
-
-class Sprite {
-    constructor({position, image}) {
-        this.position = position
-        this.image = image
-    }
-    draw() {
-        c.drawImage(
-            this.image, 
-            this.position.x, 
-            this.position.y,
-        )
-    }
-}
-
-class Player {
-    static width = 192
-    static height = 192
-    constructor({position, image}) {
-        this.position = position
-        this.image = image
-        this.width = 192
-        this.height = 192
-    }
-    draw() {
-        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
-    }
-}
-
-const background = new Sprite({
-    position: {
-        x: 0,
-        y: 0
-    },
-    image: image
-})
-
-const bootFish = new Sprite({
-    position: {
-        x: 162,
-        y: 88
-    },
-    image: bootImage
-})
-
-const lanceFish = new Sprite({
-    position: {
-        x: 162,
-        y: 88
-    },
-    image: lanceImage
-})
-
-const milesFish = new Sprite({
-    position: {
-        x: 162,
-        y: 88
-    },
-    image: milesImage
-})
-
-const squadFish = new Sprite({
-    position: {
-        x: 162,
-        y: 88
-    },
-    image: squadImage
-})
-
-const strangeFish = new Sprite({
-    position: {
-        x: 162,
-        y: 88
-    },
-    image: strangeImage
-})
-
-const catchables = [bootFish, lanceFish, milesFish, squadFish, strangeFish]
-
-const boat = new Player({
-    position: {
-        x: 400,
-        y: 200
-    },
-    image: playerImage
-})
-
-const keys = {
-    w:{
-        pressed: false
-    },
-    a:{
-        pressed: false
-    },
-    s:{
-        pressed: false
-    },
-    d:{
-        pressed: false
-    }
-}
-
-const movables = [background, ...boundaries, ...fishSpots]
 
 //detecting collisions
 function rectangularCollision({thing1, thing2}) {
@@ -355,6 +358,7 @@ function animate() {
                 pos.y <= fish.position.y + fish.height) {
                 fishing.intiated = true
                 document.querySelector('#button').disabled = false;
+                //gsap library
                 gsap.to('#green-bar', {
                     width: '80px'
                 })
@@ -367,6 +371,7 @@ function animate() {
     });
 
     //detecting collisions and moving boat
+    //detecting collisions code from Chris Courses on Youtube
     let moving = true
     if(keys.w.pressed) {
         for (let i=0; i<boundaries.length; i++) {

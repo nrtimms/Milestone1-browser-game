@@ -35,3 +35,8 @@ In this game, you boat around the map to catch interesting fish, because fishing
 
 
 ### Credits
+- Howler library for audio
+- gsap library for some animations
+- fist spot detection from https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
+- collision detection from Chris Courses on Youtube
+- audio and some game assests were made by my boyfriend, George
