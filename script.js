@@ -19,7 +19,7 @@ const audio = {
 }
 
 //important variables
-const circleObject = {
+const ref = {
     circle: document.getElementById("circle"),
     x: rect.left + 9,
     y: rect.top + 18,
@@ -53,50 +53,50 @@ let score = 0;
 let highScore = localStorage.getItem('highScore') || 0;
 
 //move ball on fishing meter
-function moveCircle(circleObject){
-    circleObject.circle.style.left = circleObject.x + "px";
-    circleObject.circle.style.top = circleObject.y + "px";
-        if (circleObject.goLeft == false){
-            circleObject.circle.style.left = circleObject.x + 3 + "px";
-            circleObject.x = circleObject.x + 3;
+function moveCircle(ref){
+    ref.circle.style.left = ref.x + "px";
+    ref.circle.style.top = ref.y + "px";
+        if (ref.goLeft == false){
+            ref.circle.style.left = ref.x + 3 + "px";
+            ref.x = ref.x + 3;
         }
-        if (circleObject.goLeft == true){
-            circleObject.circle.style.left = circleObject.x - 3 + "px";
-            circleObject.x = circleObject.x - 3;
+        if (ref.goLeft == true){
+            ref.circle.style.left = ref.x - 3 + "px";
+            ref.x = ref.x - 3;
         }
-        if(circleObject.x> rect.left + 380){
-            circleObject.goLeft=true;
+        if(ref.x> rect.left + 380){
+            ref.goLeft=true;
         }
-        if(circleObject.x< rect.left + 10){
-            circleObject.goLeft=false;
+        if(ref.x< rect.left + 10){
+            ref.goLeft=false;
         }
 }
-window.setInterval(moveCircle, 10, circleObject)
+window.setInterval(moveCircle, 10, ref)
 
 let fishCaught = false
 let donefishing = false
 //determine if the ball in clicked in or out of bounds
-function clickclick(circleObject){
-    if(circleObject.x>rect.left+160 && circleObject.x<rect.left+235){
-        circleObject.green += 80
+function clickBall(ref){
+    if(ref.x>rect.left+160 && ref.x<rect.left+235){
+        ref.green += 80
         gsap.to('#green-bar', {
-            width: circleObject.green+'px'
+            width: ref.green+'px'
         })
-        circleObject.count ++
+        ref.count ++
     }
     else {
-        circleObject.green -= 80
+        ref.green -= 80
         gsap.to('#green-bar', {
-            width: circleObject.green+'px'
+            width: ref.green+'px'
         })
-        circleObject.count --
+        ref.count --
     }
-    if (circleObject.count == 9){
-        circleObject.ran = Math.floor(Math.random() * 5)
+    if (ref.count == 9){
+        ref.ran = Math.floor(Math.random() * 5)
         score++
         fishCaught = true
     }
-    if(circleObject.count == 4){
+    if(ref.count == 4){
         score = 0
         alert("The fish got away");
         donefishing = true;
@@ -147,18 +147,6 @@ fishiesMap.forEach((row, i) => {
             })
         )
     })
-})
-
-//change direction of boar
-window.addEventListener('keydown', (e) => {
-    switch(e.key) {
-        case 'a':
-            playerImage.src = 'assets/boat.png'
-            break
-        case 'd':
-            playerImage.src = 'assets/boatEast.png'
-            break
-    }
 })
 
 //background and player image
@@ -315,34 +303,70 @@ function animate() {
         fish.draw()
     })
     
+    document.getElementById("button").onclick = function() {clickBall(ref)};
+
+    //update score
+    if (score > highScore) highScore = score;
+    localStorage.setItem('highScore', highScore);
+    c.font = "15px Verdana";
+    c.fillStyle = '#eee';
+    c.fillText(`Fish caught in a row: ${score}    High Score: ${highScore}`, 700, 40);
+
+    //when catching fish is successful
+    if (fishCaught) {
+        gsap.to('.meter',{
+            opacity: 0
+        })
+        catchables[ref.ran].draw()
+        canvas.addEventListener('click', (e) => {
+            fishing.intiated = false
+            fishCaught = false
+            ref.count = 5 
+            ref.green = 80
+            document.querySelector('#button').disabled = true;
+        });
+    }
+
+    //catching fish unsuccessful
+    if(donefishing) {
+        fishing.intiated = false
+        gsap.to('.meter',{
+            opacity: 0
+        })
+        donefishing = false
+        ref.count = 5 
+        ref.green = 80
+        document.querySelector('#button').disabled = true;
+    }
+
     if(fishing.intiated) return
 
-//click on bubbles https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
-  canvas.addEventListener('click', (e) => {
-    const pos = {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    };
-    console.log(pos)
-    for (let i=0; i<fishSpots.length; i++){
-        const fish = fishSpots[i]
-        if (pos.x >= fish.position.x &&
-            pos.x <= fish.position.x + fish.width &&
-            pos.y >= fish.position.y &&
-            pos.y <= fish.position.y + fish.height) {
-            fishing.intiated = true
-            document.querySelector('#button').disabled = false;
-            gsap.to('#green-bar', {
-                width: '80px'
-            })
-            gsap.to('.meter',{
-                opacity: 1
-            })
-            break
-        }
-    };
-  });
+    //detect click on bubbles https://lavrton.com/hit-region-detection-for-html5-canvas-and-how-to-listen-to-click-events-on-canvas-shapes-815034d7e9f8/
+    canvas.addEventListener('click', (e) => {
+        const pos = {
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        };
+        for (let i=0; i<fishSpots.length; i++){
+            const fish = fishSpots[i]
+            if (pos.x >= fish.position.x &&
+                pos.x <= fish.position.x + fish.width &&
+                pos.y >= fish.position.y &&
+                pos.y <= fish.position.y + fish.height) {
+                fishing.intiated = true
+                document.querySelector('#button').disabled = false;
+                gsap.to('#green-bar', {
+                    width: '80px'
+                })
+                gsap.to('.meter',{
+                    opacity: 1
+                })
+                break
+            }
+        };
+    });
 
+    //detecting collisions and moving boat
     let moving = true
     if(keys.w.pressed) {
         for (let i=0; i<boundaries.length; i++) {
@@ -367,7 +391,8 @@ function animate() {
             movables.forEach((movable) => {
                 movable.position.y += 5
             })
-    } if(keys.a.pressed) {
+    } 
+    if(keys.a.pressed) {
         for (let i=0; i<boundaries.length; i++) {
             const boundary = boundaries[i]
             if (
@@ -390,95 +415,71 @@ function animate() {
             movables.forEach((movable) => {
                 movable.position.x += 5
             })
-    } if(keys.s.pressed) {
-            for (let i=0; i<boundaries.length; i++) {
-                const boundary = boundaries[i]
-                if (
-                    rectangularCollision({
-                        thing1: boat,
-                        thing2: {
-                            ...boundary,
-                            position: {
-                                x: boundary.position.x,
-                                y: boundary.position.y - 5
-                            }
+    } 
+    if(keys.s.pressed) {
+        for (let i=0; i<boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (
+                rectangularCollision({
+                    thing1: boat,
+                    thing2: {
+                        ...boundary,
+                        position: {
+                            x: boundary.position.x,
+                            y: boundary.position.y - 5
                         }
-                    })
-                ) {
-                    moving = false
-                    break
-                }
-            }
-            if (moving)
-                movables.forEach((movable) => {
-                    movable.position.y -= 5
+                    }
                 })
-        }if(keys.d.pressed) {
-            for (let i=0; i<boundaries.length; i++) {
-                const boundary = boundaries[i]
-                if (
-                    rectangularCollision({
-                        thing1: boat,
-                        thing2: {
-                            ...boundary,
-                            position: {
-                                x: boundary.position.x - 5,
-                                y: boundary.position.y
-                            }
-                        }
-                    })
-                ) {
-                    moving = false
-                    break
-                }
+            ) {
+                moving = false
+                break
             }
-            if (moving)
-                movables.forEach((movable) => {
-                    movable.position.x -= 5
-                })
         }
-}
-
-
-function animateFishing(){
-    window.requestAnimationFrame(animateFishing)
-    document.getElementById("button").onclick = function() {clickclick(circleObject)};
-    if (score > highScore) highScore = score;
-    localStorage.setItem('highScore', highScore);
-    c.font = "15px Verdana";
-    c.fillStyle = '#eee';
-    c.fillText(`Fish caught in a row: ${score}    High Score: ${highScore}`, 700, 40);
-    if (fishCaught) {
-        gsap.to('.meter',{
-            opacity: 0
+        if (moving)
+            movables.forEach((movable) => {
+            movable.position.y -= 5
         })
-        catchables[circleObject.ran].draw()
-    
-        canvas.addEventListener('click', (e) => {
-            fishing.intiated = false
-            fishCaught = false
-            circleObject.count = 5 
-            circleObject.green = 80
-            document.querySelector('#button').disabled = true;
-        });
-    }
-
-    if(donefishing) {
-        fishing.intiated = false
-        gsap.to('.meter',{
-            opacity: 0
+    }   
+    if(keys.d.pressed) {
+        for (let i=0; i<boundaries.length; i++) {
+            const boundary = boundaries[i]
+            if (
+                rectangularCollision({
+                    thing1: boat,
+                    thing2: {
+                        ...boundary,
+                        position: {
+                            x: boundary.position.x - 5,
+                            y: boundary.position.y
+                        }
+                    }
+                })
+            ) {
+                moving = false
+                break
+            }
+        }
+        if (moving)
+            movables.forEach((movable) => {
+            movable.position.x -= 5
         })
-        donefishing = false
-        circleObject.count = 5 
-        circleObject.green = 80
-        document.querySelector('#button').disabled = true;
-        console.log(fishCaught)
-        console.log(donefishing)
     }
 }
 
+//run game loop
 animate()
-animateFishing()
+
+//change direction of boat
+window.addEventListener('keydown', (e) => {
+    switch(e.key) {
+        case 'a':
+            playerImage.src = 'assets/boat.png'
+            break
+        case 'd':
+            playerImage.src = 'assets/boatEast.png'
+            break
+    }
+})
 
 window.addEventListener('keydown', (e) => {
     switch(e.key) {
@@ -514,6 +515,7 @@ window.addEventListener('keyup', (e) => {
     }
 })
 
+//play audio
 let clicked = false
 addEventListener('keydown', () => {
   if (!clicked) {
