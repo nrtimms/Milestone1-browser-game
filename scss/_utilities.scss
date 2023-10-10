@@ -1,0 +1,32 @@
+@function text-color-picker($color) {
+    @if(lightness($color) > 70) {
+        @return black;
+    }
+
+    @else {
+        @return white;
+    }
+}
+
+@function halveIt($num) {
+    @return $num/2;
+}
+
+@mixin set-bg($color) {
+    background-color: $color;
+    color: text-color-picker($color)
+}
+
+@mixin bordered {
+    color: black;
+    border-style: groove;
+    @include centered;
+}
+
+@mixin centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: halveIt(100%);
+}
+

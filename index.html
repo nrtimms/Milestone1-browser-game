@@ -1,41 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css"/>
-        <title>Fishing Game</title>
-    </head>
-    <body>
 
-        <h1>Gone Fishing</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="scss/style.css" />
+    <title>Fishing Game</title>
+</head>
 
-        <!-- Fishing meter and Canvas -->
-        <div>
-            <div class="meter">
-                <div class="rectangle" id="rect"></div>
-                <div class="target" id="target"></div>
-                <div class="circle" id="circle"></div>
-                <div id="progress"></div>
-                <div id="green-bar"></div>
-                <button id="button" type="button" disabled>Reel in Fish</button> 
-            </div>
-            <canvas></canvas>
+<body>
+        <nav>
+            <ul>
+                <li>
+                    <a href="index.html">Play Game</a>
+                </li>
+                <li>
+                    <a href="howToPlay.html">How To Play</a>
+                </li>
+                <li>
+                    <a href="credit.html">Credits</a>
+                </li>
+            </ul>
+        </nav>
+
+    <h1>Gone Fishing</h1>
+
+    <!-- Fishing meter and Canvas -->
+    <div>
+        <div class="meter">
+            <div class="rectangle" id="rect"></div>
+            <div class="target" id="target"></div>
+            <div class="circle" id="circle"></div>
+            <div id="progress"></div>
+            <div id="green-bar"></div>
+            <button class="btn" id="button" type="button" disabled>Reel in Fish</button>
         </div>
+        <canvas></canvas>
+    </div>
 
-        <div id="instructions">
-            <p>Boat around the map using W A S D keys. Clicking on bubbles will reveal a fishing spot. To catch a fish,</br> click the 'Reel in Fish' button when the pink ball aligns with the green target. Try finding all 5 fish!</p>
-            <p id="note">*If you resize your browser after opening the game, refresh for the game to work properly.</p>
-        </div>
 
-        <!-- Howler Library for audio -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <!-- gsap Library for fading animations -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js" integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="fishies.js"></script>
-        <script src="collisions.js"></script>
-        <script src="script.js"></script>
 
-    </body>
+    <!-- Howler Library for audio -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"
+        integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- gsap Library for fading animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"
+        integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="fishies.js"></script>
+    <script src="collisions.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
 </html>

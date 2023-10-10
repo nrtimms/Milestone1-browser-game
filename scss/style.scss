@@ -1,0 +1,103 @@
+@import "config";
+@import "utilities";
+
+nav {
+    @include centered;
+    display: flex;
+    align-items: center;
+
+
+    ul {
+      display: flex;
+      list-style-type: none;
+      margin-left: 25%;
+    }
+
+    li {
+      padding: 15px;
+    }
+
+    a {
+      color: text-color-picker($primary-color);
+    }
+
+    a:hover {
+      color: $secondary-color;
+    }
+
+    a:active {
+        @include set-bg($secondary-color);
+    }
+  }
+
+* {
+    text-align: center;
+}
+
+
+body {
+    @include set-bg($primary-color);
+
+
+h1,
+p {
+    font-family: $font-stack;
+    color: $secondary-color;
+}
+
+p {
+    @include bordered;
+}
+
+#note {
+    font-size: 15px;
+}
+
+.rectangle {
+    height: 50px;
+    width: 400px;
+    background-color: $bar-color;
+    position: fixed;
+}
+
+.target {
+    height: 50px;
+    width: 75px;
+    background-color: $target-color;
+    position: fixed;
+}
+
+.circle {
+    height: 30px;
+    width: 30px;
+    background-color: $primary-color;
+    border-radius: 50%;
+    position: fixed;
+}
+
+#progress {
+    height: 10px;
+    width: 400px;
+    background-color: $primary-color;
+    position: fixed;
+}
+
+#green-bar {
+    height: 10px;
+    width: 400px;
+    background-color: $target-color;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+}
+
+.meter {
+    position: absolute;
+    opacity: 0;
+}
+
+button {
+    position: fixed;
+}
+}

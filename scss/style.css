@@ -1,0 +1,92 @@
+nav {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  display: flex;
+  align-items: center;
+}
+nav ul {
+  display: flex;
+  list-style-type: none;
+  margin-left: 25%;
+}
+nav li {
+  padding: 15px;
+}
+nav a {
+  color: black;
+}
+nav a:hover {
+  color: #11589a;
+}
+nav a:active {
+  background-color: #11589a;
+  color: white;
+}
+
+* {
+  text-align: center;
+}
+
+body {
+  background-color: rgb(250, 216, 221);
+  color: black;
+}
+body h1,
+body p {
+  font-family: Monaco;
+  color: #11589a;
+}
+body p {
+  color: black;
+  border-style: groove;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+body #note {
+  font-size: 15px;
+}
+body .rectangle {
+  height: 50px;
+  width: 400px;
+  background-color: black;
+  position: fixed;
+}
+body .target {
+  height: 50px;
+  width: 75px;
+  background-color: green;
+  position: fixed;
+}
+body .circle {
+  height: 30px;
+  width: 30px;
+  background-color: rgb(250, 216, 221);
+  border-radius: 50%;
+  position: fixed;
+}
+body #progress {
+  height: 10px;
+  width: 400px;
+  background-color: rgb(250, 216, 221);
+  position: fixed;
+}
+body #green-bar {
+  height: 10px;
+  width: 400px;
+  background-color: green;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: fixed;
+}
+body .meter {
+  position: absolute;
+  opacity: 0;
+}
+body button {
+  position: fixed;
+}/*# sourceMappingURL=style.css.map */
