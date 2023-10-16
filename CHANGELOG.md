@@ -1,0 +1,29 @@
+- added scss
+- final commit for  project presentation
+- final code for presentation
+- some code cleaning
+- improved fishing meter
+- added styling
+- fixed random fish
+- game complete without styling
+- testing audio
+- boat changes direction
+- disabled button
+- improved movement of boat
+- ball position fixed
+- fixed positioning of meter
+- added score and fixed bubble positions
+- added progress bar
+- basic mechanics work, basic instructions, little styling
+- transition back to original game loop working
+- transition back to original game loop (not working 100% properly)
+- trouble shooting broken images pt.4
+- trouble shooting broken images pt.3
+- trouble shooting broken images pt.2
+- trouble shooting broken images
+- added transition to fishing scene
+- added click on bubbles functionality
+- collision detection and marked fish spots
+- can move background
+- added water backgroud
+- created fishing meter
